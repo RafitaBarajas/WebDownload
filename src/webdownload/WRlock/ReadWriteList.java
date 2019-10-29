@@ -1,13 +1,14 @@
-package wget;
+package webdownload.WRlock;
 
 import java.util.*;
 import java.util.concurrent.locks.*;
  
-public class ReadWriteList<E> 
-{
-
+public class ReadWriteList<E> {
     private List<E> list = new ArrayList<>();
     private ReadWriteLock rwLock = new ReentrantReadWriteLock();
+    
+    public ReadWriteList(){
+    }
  
     public ReadWriteList(E... initialElements) { //genérico:Clase, Interfaz        
         list.addAll(Arrays.asList(initialElements));
@@ -16,8 +17,7 @@ public class ReadWriteList<E>
     public void add(E element) {
         Lock writeLock = rwLock.writeLock();
         writeLock.lock(); 
-        try 
-        {
+        try {
             list.add(element);
         } finally {
             writeLock.unlock();

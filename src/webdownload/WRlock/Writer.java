@@ -1,4 +1,4 @@
-package wget;
+package webdownload.WRlock;
 import java.util.*;
  
 /**
@@ -7,20 +7,17 @@ import java.util.*;
  */
 public class Writer extends Thread {
     private ReadWriteList<String> sharedList;
+    private String path;
  
-    public Writer(ReadWriteList<String> sharedList) {
+    public Writer(ReadWriteList<String> sharedList, String path) {
         this.sharedList = sharedList;
+        this.path = path;
     }
  
     public void run() {
-        Random random = new Random();
-        int number = random.nextInt(100);
-        sharedList.add("S"+number+"");
+        sharedList.add(path);
  
-        try {
-            Thread.sleep(100);
-            System.out.println(getName() + " -> put: " + number);
-        } catch (InterruptedException ie ) { ie.printStackTrace(); }
+        System.out.println(getName() + " -> added: " + path);
         
         System.out.println("");
     }

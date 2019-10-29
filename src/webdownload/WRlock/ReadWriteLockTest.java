@@ -1,4 +1,4 @@
-package wget;
+package webdownload.WRlock;
 import java.util.*;
 import java.net.*;
 import java.util.concurrent.ExecutorService;
@@ -20,12 +20,12 @@ public class ReadWriteLockTest
         ExecutorService ex1 = Executors.newFixedThreadPool(5);
         
         for (int i = 0; i < WRITER_SIZE; i++) {
-            ex.execute(new Writer(sharedList));
+            ex.execute(new Writer(sharedList, ""));
             
         }
         
         for (int i = 0; i < READER_SIZE; i++) {
-            ex1.execute(new Reader(sharedList));
+            ex1.execute(new Reader(sharedList, 0));
         }
  
     }

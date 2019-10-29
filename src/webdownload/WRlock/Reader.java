@@ -1,4 +1,4 @@
-package wget;
+package webdownload.WRlock;
 import java.util.*;
 import java.net.*;
 import java.util.concurrent.ExecutorService;
@@ -9,28 +9,19 @@ import java.util.concurrent.Executors;
  * Este hilo lee aleatoriamente un elemento a un ArrayList compartido
  */
 
-public class Reader extends Thread
-{
-    
-    
+public class Reader extends Thread{    
     private ReadWriteList<String> sharedList;    
+    private int index;
     
-    
-    public Reader(ReadWriteList<String> sharedList)
-    {              
+    public Reader(ReadWriteList<String> sharedList, int index){              
         this.sharedList = sharedList;
+        this.index = index;
     }
  
     public void run() {
-        Random random = new Random();
-        int index = random.nextInt(sharedList.size());
         String number = sharedList.get(index);
  
         System.out.println(getName() + " -> get: " + number);
- 
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException ie ) { ie.printStackTrace(); }
- 
     }
+    
 }
