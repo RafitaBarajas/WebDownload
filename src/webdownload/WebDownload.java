@@ -39,6 +39,7 @@ public class WebDownload {
         String line;
         String name;
         String subpath;
+        String firstsubpath;
         String auxname;
         int index;
         boolean flag = false;
@@ -118,14 +119,17 @@ public class WebDownload {
                         line = line + "\n";
 
                         if(line.contains("href=\"")){
+                            //System.out.println("");
                             //System.out.print(line);
                             
                             index = line.indexOf("href=") + 6;
                             subpath = line.substring(index, line.indexOf("\"", index));
                             
-                            //System.out.println(subpath);                            
+                            firstsubpath = subpath;
+          
+                            //System.out.println(subpath);                      
                             
-                            if(!subpath.contains("?")){
+                            if(!subpath.contains("?") && !subpath.contains("@")){
                                 if(subpath.startsWith("/")){
                                     subpath = url.getProtocol() + "://" + url.getHost() + subpath;
                                 } else {
@@ -138,13 +142,17 @@ public class WebDownload {
                             
                             line  = line.replace("https://", path);
                             line  = line.replace("http://", path);
+                            
+                            if(!firstsubpath.startsWith("/") && !firstsubpath.startsWith("/")){
+                                line  = line.replace("href=\"", "href=\"" + path + url.getHost() + url.getFile() + "/");
+                            }
+                            
                         }
                         
                         if(line.contains("src=\"")){
                             index = line.indexOf("src") + 5;
                             subpath = line.substring(index, line.indexOf("\"", index));
                         
-                        
                             if(!subpath.contains("?")){
                                 if(subpath.startsWith("/")){
                                     subpath = url.getProtocol() + "://" + url.getHost() + subpath;
@@ -158,6 +166,8 @@ public class WebDownload {
                             
                             line  = line.replace("https://", path);
                             line  = line.replace("http://", path);
+                            line  = line.replace("/icons/", "../icons/");
+                            
                         }
                                                 
                         bw.write(line);
