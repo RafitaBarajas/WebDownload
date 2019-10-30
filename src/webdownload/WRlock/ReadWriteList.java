@@ -33,6 +33,25 @@ public class ReadWriteList<E> {
             readLock.unlock();
         }
     }
+    
+    public int exists(String path){
+        
+        int aux = 0;
+        
+        Lock readLock = rwLock.readLock();
+        readLock.lock(); 
+        for (int i = 0; i < list.size(); i++) {
+            if(list.get(i).equals(path)){
+                aux = 1;
+            }
+        }
+        
+        try {
+            return aux;
+        } finally {
+            readLock.unlock();
+        }
+    }
  
     public int size() {
         Lock readLock = rwLock.readLock();

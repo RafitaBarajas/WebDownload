@@ -1,4 +1,7 @@
 package webdownload.WRlock;
+import java.io.DataOutputStream;
+import java.io.OutputStream;
+import java.io.PipedOutputStream;
 import java.util.*;
 import java.net.*;
 import java.util.concurrent.ExecutorService;
@@ -11,17 +14,26 @@ import java.util.concurrent.Executors;
 
 public class Reader extends Thread{    
     private ReadWriteList<String> sharedList;    
-    private int index;
+    private String path;
+    private DataOutputStream output;
     
-    public Reader(ReadWriteList<String> sharedList, int index){              
+    public Reader(ReadWriteList<String> sharedList, String path, OutputStream output){              
         this.sharedList = sharedList;
-        this.index = index;
+        this.path = path;
+        this.output = new DataOutputStream(output);
     }
  
     public void run() {
-        String number = sharedList.get(index);
- 
-        System.out.println(getName() + " -> get: " + number);
+        int esta = sharedList.exists(path);
+        
+        try{
+            
+            output.writeInt(esta);
+            output.flush();
+            
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
     
 }
