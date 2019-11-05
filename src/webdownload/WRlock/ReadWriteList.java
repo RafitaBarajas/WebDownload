@@ -46,6 +46,10 @@ public class ReadWriteList<E> {
             }
         }
         
+        if(aux == 0){
+            list.add((E) path);
+        }
+        
         try {
             return aux;
         } finally {
